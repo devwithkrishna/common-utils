@@ -1,18 +1,19 @@
 #!/bin/bash
+#install wget unzip packages
+sudo apt install wget unzip -y
 
-# Download the latest Terraform version
-latest_version=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+#download latest terraform archive
+TER_VER=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d: -f2 | tr -d \"\,\v | awk '{$1=$1};1')
+wget https://releases.hashicorp.com/terraform/${TER_VER}/terraform_${TER_VER}_linux_amd64.zip
 
-# Install unzip if not already installed
-sudo apt update
-sudo apt install -y unzip
+#extract terraform 
+unzip terraform_${TER_VER}_linux_amd64.zip
 
-# Download and install Terraform
-wget "https://releases.hashicorp.com/terraform/${latest_version}/terraform_${latest_version}_linux_amd64.zip" -O /tmp/terraform.zip
-sudo unzip -o /tmp/terraform.zip -d /usr/local/bin/
+#move binary to /usr/local/bin
+sudo mv terraform /usr/local/bin/
 
-# Set executable permissions
-sudo chmod +x /usr/local/bin/terraform
+#checking terraform installation
+which terraform
 
-# Verify the installation
+#terraform --version
 terraform --version
