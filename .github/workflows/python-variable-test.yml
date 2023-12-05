@@ -11,8 +11,12 @@ jobs:
           python-version: '3.11.2'
       - name: py version
         run: |
-          echo "::set-output name=python-version::${{ matrix.python-version }}"
-      - name: check-python-version
-        run: python --version
+          python_version=$(python3 --version) >> "$GITHUB_ENV"
+      - name: Use the value
+        id: step_two
+        run: |
+          printf '%s\n' "$python_version" # This will output python_version
+      # - name: check-python-version
+        # run: python --version
       - name: Check completed
-        run: echo "Arigato ${{ github.actor }} & python version is${{ needs.python-version-test.outputs.python-version }} . Job is completed now"
+        run: echo "Arigato ${{ github.actor }} & python version is ${python_version} . Job is completed now"
