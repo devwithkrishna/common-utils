@@ -1,4 +1,4 @@
-name: python-test
+name: python-variable-test
 run-name: Triggered by ${{ github.actor }} on ${{ github.event_name }} event
 on: [push, pull_request]
 jobs:
