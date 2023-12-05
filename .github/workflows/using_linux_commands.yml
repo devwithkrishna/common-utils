@@ -3,6 +3,8 @@ on: [push]
 run-name: Triggered by ${{ github.actor }} on organization ${{ github.repository_owner }}
 jobs:
   Exploring-Github-Variables:
+    runs-on: ubuntu-latest
+    steps:
     - name: organization name
       run: echo "ORG name is ${{ github.repository_owner }}"
     - name: repository name 
