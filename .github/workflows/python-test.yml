@@ -1,5 +1,5 @@
 name: python-test
-run-name: Triggered by {{ github.actor }} on {{ github.event_name }} event
+run-name: Triggered by ${{ github.actor }} on ${{ github.event_name }} event
 on: [push, pull_request]
 jobs:
   python-version-test:
