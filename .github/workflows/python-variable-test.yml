@@ -15,5 +15,4 @@ jobs:
       - name: check-python-version
         run: python --version
       - name: Check completed
-        run: echo "Arigato ${{ github.actor }} & python version is ${{ needs.python-version-test.outputs.python-version }}. Job is completed now"
-        
+        run: echo "Arigato ${{ github.actor }} & python version is${{ needs.python-version-test.outputs.python-version }} . Job is completed now"
