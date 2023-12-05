@@ -1,0 +1,16 @@
+name: using-linux-commands
+on: [push, pull]
+run-name: Triggered by ${{ github.actor }} on organization ${{ github.repository_owner }}
+jobs:
+  Exploring-Github-Variables:
+    - name: organization name
+      run: echo "ORG name is ${{ github.repository_owner }}"
+    - name: repository name 
+      run: echo "Repository name is ${{ github.event.repository.name }}"
+    - name: github-checkout
+      uses: actions/checkout@v4
+    - name: listing files
+      run: | 
+        ls -la
+    - name: job status
+      run: echo "Job status is ${{job.status}}"
