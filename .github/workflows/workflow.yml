@@ -1,0 +1,9 @@
+# my first github action workflow 
+name: First test
+on: [push]
+run-name: ${{github.actor}} is running this job
+jobs:
+  workflow-python:
+    runs-on: ubuntu-latest
+    steps: 
+      - run : echo "Hello ${{github.actor}} !! "
