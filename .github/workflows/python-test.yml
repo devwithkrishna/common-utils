@@ -12,4 +12,4 @@ jobs:
       - name: check-python-version
         run: python --version
       - name: Check completed
-        run: echo "Arigato {{ github.actor }}. Job is completed now"
+        run: echo "Arigato ${{ github.actor }}. Job is completed now"
