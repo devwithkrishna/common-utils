@@ -1,5 +1,5 @@
 name: using-linux-commands
-on: [push, pull]
+on: [push]
 run-name: Triggered by ${{ github.actor }} on organization ${{ github.repository_owner }}
 jobs:
   Exploring-Github-Variables:
