@@ -19,6 +19,9 @@ jobs:
       - name: github-checkout
         uses: actions/checkout@v4
       - name: Print Environment
+        with:
+          ENV: ${{ inputs.ENV }}
+          GOAL: ${{ inputs.GOAL }}
         run: echo "Environmeny is ${{ inputs.ENV}}"
       
   
