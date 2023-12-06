@@ -2,15 +2,15 @@ name: inputs from github console
 on: 
   workflow_dispatch: 
     inputs:
-    ENV: 
-      description: 'target env'
-      required: true
-      type: choice
-      options: ['dev', 'staging', 'production']
-    GOAL:
-      description: 'your goal in life'
-      required: true
-      type: string
+      ENV: 
+        description: 'target env'
+        required: true
+        type: choice
+        options: ['dev', 'staging', 'production']
+      GOAL:
+        description: 'your goal in life'
+        required: true
+        type: string
 run-name: ${{ github.actor }} triggered this workflow
 jobs:
   input-from-github-ui:
