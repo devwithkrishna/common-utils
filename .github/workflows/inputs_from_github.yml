@@ -1,0 +1,25 @@
+name: inputs from github console
+on: 
+  workflow_dispatch: 
+    inputs:
+    ENV: 
+      description: 'target env'
+      required: true
+      type: choice
+      options: ['dev', 'staging', 'production']
+    GOAL:
+      description: 'your goal in life'
+      required: true
+      type: string
+run-name: ${{ github.actor }} triggered this workflow
+jobs:
+  input-from-github-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: github-checkout
+        uses: actions/checkout@v4
+      - name: Print Environment
+        run: echo "Environmeny is ${{ inputs.ENV}}"
+      
+  
+
