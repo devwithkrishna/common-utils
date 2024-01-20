@@ -29,3 +29,6 @@ echo "Waiting for Jenkins to start..."
 sleep 45  # Wait for Jenkins to start (adjust as needed)
 echo "Jenkins initial admin password:"
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+# Access your jenkins at <ip address>:8080 port or <dns_record>:8080 port and enter the initial admin password displayed
+
