@@ -1,0 +1,26 @@
+name: Azure Terraforminator 
+
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+
+jobs:
+  run-terraforminator:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Azure authentication
+      env:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        
+      run: echo "Azure authentication environment variables set."
+
+    - name: Run Azure Terraforminator Action
+      uses: devwithkrishna/azure-terraforminator@v2.0.0
+      with:
+        subscription_name: "TECH-ARCHITECTS-NONPROD"
