@@ -22,6 +22,6 @@ jobs:
       run: echo "Azure authentication environment variables set."
 
     - name: Run Azure Terraforminator Action
-      uses: devwithkrishna/azure-terraforminator@v2
+      uses: devwithkrishna/azure-terraforminator@v1.1.1
       with:
         subscription_name: "TECH-ARCHITECTS-NONPROD"
