@@ -1,0 +1,26 @@
+name: Protected Terraform Execution
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Validate triggering user
+        run: python validate_user.py
+        env:
+          ALLOWED_EXECUTORS: ${{ secrets.ALLOWED_EXECUTORS }}
+          GITHUB_ACTOR: ${{ github.actor }}
+
+      - name: Run protected logic
+        run: echo "🔒 Running protected Terraform logic for ${{ github.actor }}"
