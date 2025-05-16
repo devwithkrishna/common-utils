@@ -22,7 +22,7 @@ jobs:
       run: echo "Azure authentication environment variables set."
 
     - name: Azure KeyVault Secrets Migration
-      uses: /devwithkrishna/azure-keyvault-secrets-sync-action@v1.0.0
+      uses: /devwithkrishna/azure-keyvault-secrets-sync-action@main
       with:
         source_keyvault: 'ARCHITECTS-KEYVAULT'
         destination_keyvault_names: 'TEST1XEWR,MyxqwVult'
