@@ -1,0 +1,37 @@
+name: KeyVault Secrets Migration 
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_keyvault:
+        description: 'Source KeyVault name'
+        required: true
+        type: string
+      destination_keyvault_names:
+        description: 'Comma-separated destination KeyVault names'
+        required: true
+        type: string
+      secret_names:
+        description: 'Comma-separated secret names to migrate'
+        required: true
+        type: string
+      target_secret_names:
+        description: 'Comma-separated target secret names (optional)'
+        required: false
+        type: string
+
+jobs:
+  migrate-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure KeyVault Secrets Migration
+        uses: devwithkrishna/azure-keyvault-secrets-sync-action@main
+        with:
+          source_keyvault: ${{ inputs.source_keyvault }}
+          destination_keyvault_names: ${{ inputs.destination_keyvault_names }}
+          secret_names: ${{ inputs.secret_names }}
+          target_secret_names: ${{ inputs.target_secret_names }}
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
