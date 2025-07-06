@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Token generator
+      uses: githubofkrishnadhas/github-access-using-githubapp@v2
+      id: token-generation
+      with:
+        github_app_id: ${{ secrets.APP_ID }}
+        github_app_private_key : ${{ secrets.PRIVATE_KEY }}
+        
     - name: Checkout repository
       uses: actions/checkout@v4
 
