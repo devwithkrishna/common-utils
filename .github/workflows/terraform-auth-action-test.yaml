@@ -1,0 +1,31 @@
+name: terraform-auth-action 
+
+on:
+  workflow_dispatch:
+  
+
+jobs:
+  terraform-auth-action:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Token generator
+      uses: githubofkrishnadhas/github-access-using-githubapp@v2
+      id: token-generation
+      with:
+        github_app_id: ${{ secrets.APP_ID }}
+        github_app_private_key : ${{ secrets.PRIVATE_KEY }}
+        
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run terraform-auth-action
+      uses: devwithkrishna/terraform-azure-authentication-action@main
+      env:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    - name: list env vars
+      run: printenv
+      
