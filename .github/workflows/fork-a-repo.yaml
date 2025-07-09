@@ -1,0 +1,47 @@
+name: Create Repo from Template
+
+on:
+  workflow_dispatch:
+    inputs:
+      new_repo_name:
+        description: 'abcsdfghjklmno'
+        required: true
+      template_owner:
+        description: 'Owner of the template repository'
+        required: true
+        default: 'devwithkrishna'
+      template_repo:
+        description: 'Name of the template repository'
+        required: true
+        default: 'enable-codeql-analysis-for-repositories'
+
+jobs:
+  create-from-template:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Token generator
+      uses: githubofkrishnadhas/github-access-using-githubapp@v2
+      id: token-generation
+      with:
+        github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
+        github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
+
+    - name: Create repository from template
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ steps.token-generation.outputs.token }}
+        script: |
+          const owner = context.repo.owner;
+          const newRepoName = '${{ github.event.inputs.new_repo_name }}';
+          const templateOwner = '${{ github.event.inputs.template_owner }}';
+          const templateRepo = '${{ github.event.inputs.template_repo }}';
+
+          await github.rest.repos.createUsingTemplate({
+            template_owner: templateOwner,
+            template_repo: templateRepo,
+            owner: owner,
+            name: newRepoName,
+            include_all_branches: false,
+            private: false
+          });
