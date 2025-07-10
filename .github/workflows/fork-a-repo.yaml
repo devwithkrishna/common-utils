@@ -30,8 +30,8 @@ jobs:
       uses: githubofkrishnadhas/github-access-using-githubapp@v2
       id: token-generation
       with:
-        github_app_id: ${{ secrets.APP_ID }}
-        github_app_private_key : ${{ secrets.PRIVATE_KEY }}
+        github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
+        github_app_private_key : ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
 
     - name: Make repo private if required
       if: ${{ github.event.inputs.is_private == 'true' }}
