@@ -26,42 +26,22 @@ jobs:
 
     steps:
 
-    - name: Fork the template repository using GitHub App Token
-      env:
-        GH_APP_TOKEN: ${{ secrets.DEVWITHKRISHNA_PERSONAL_ACCESS_TOKEN }}
-        TEMPLATE_REPO: ${{ github.event.inputs.template_repo }}
-        TARGET_OWNER: ${{ github.event.inputs.target_owner }}
-        NEW_REPO_NAME: ${{ github.event.inputs.new_repo_name }}
-        IS_PRIVATE: ${{ github.event.inputs.is_private }}
-      run: |
-        echo "Forking $TEMPLATE_REPO into $TARGET_OWNER/$NEW_REPO_NAME..."
-
-        RESPONSE=$(curl -s -X POST "https://api.github.com/repos/$TEMPLATE_REPO/forks" \
-          -H "Authorization: Bearer $GH_APP_TOKEN" \
-          -H "Accept: application/vnd.github+json" \
-          -d "{\"organization\": \"$TARGET_OWNER\", \"name\": \"$NEW_REPO_NAME\"}")
-
-        echo "Response: $RESPONSE"
-
-        REPO_URL=$(echo "$RESPONSE" | jq -r '.html_url')
-
-        if [[ "$REPO_URL" == "null" ]]; then
-          echo "❌ Failed to create fork. Response:"
-          echo "$RESPONSE"
-          exit 1
-        fi
-
-        echo "✅ Successfully forked: $REPO_URL"
+    - name: Token generator
+      uses: githubofkrishnadhas/github-access-using-githubapp@v2
+      id: token-generation
+      with:
+        github_app_id: ${{ secrets.APP_ID }}
+        github_app_private_key : ${{ secrets.PRIVATE_KEY }}
 
     - name: Make repo private if required
       if: ${{ github.event.inputs.is_private == 'true' }}
       env:
-        GH_APP_TOKEN: ${{ secrets.GH_APP_TOKEN }}
-        TARGET_OWNER: ${{ github.event.inputs.target_owner }}
+        GH_APP_TOKEN: ${{ steps.token-generation.outputs.token }}
+        TARGET_OWNER: "devwithkrishna"
         NEW_REPO_NAME: ${{ github.event.inputs.new_repo_name }}
       run: |
         echo "Setting repository visibility to private..."
         curl -s -X PATCH "https://api.github.com/repos/$TARGET_OWNER/$NEW_REPO_NAME" \
           -H "Authorization: Bearer $GH_APP_TOKEN" \
           -H "Accept: application/vnd.github+json" \
-          -d '{"private": true}'
+          -d '{"organization":"octocat","name":"Hello-World","private": true
