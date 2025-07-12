@@ -58,16 +58,16 @@ jobs:
       run: |
         terraform --version
 
+    - name: list files
+      run: |
+        ls -la
+        ls -la ${{ inputs.directory }}
+
     - name: terraform init
       run: terraform -chdir=${{ inputs.directory }} init
 
     - name: terraform validate
       run: terraform -chdir=${{ inputs.directory }} validate
-
-    - name: list files
-      run: |
-        ls -la
-        ls -la ${{ inputs.directory }}
 
     - name: Terraform Plan
       run: |
