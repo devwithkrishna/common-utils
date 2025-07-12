@@ -31,7 +31,7 @@ jobs:
       id: token-generation
       with:
         github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
-        github_app_private_key : ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
+        github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
 
     - name: Make repo private if required
       if: ${{ github.event.inputs.is_private == 'true' }}
@@ -41,7 +41,7 @@ jobs:
         NEW_REPO_NAME: ${{ github.event.inputs.new_repo_name }}
       run: |
         echo "Setting repository visibility to private..."
-        curl  -L -X POST "https://api.github.com/repos/$TARGET_OWNER/$NEW_REPO_NAME" \
+        curl  -L -X POST "https://api.github.com/repos/${{ inputs.template_repo }}" \
           -H "Authorization: Bearer $GH_APP_TOKEN" \
           -H "Accept: application/vnd.github+json" \
-          -d '{"organization":"octocat","name":"Hello-World","private": true}'
+          -d '{"organization":$TARGET_OWNER,"name":$NEW_REPO_NAME,"private": true}'
