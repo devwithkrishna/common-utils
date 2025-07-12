@@ -31,7 +31,7 @@ jobs:
       id: token-generation
       with:
         github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
-        name: Fork Template Repo (App Token)
+        github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
 
     - name: Make repo private if required
       if: ${{ github.event.inputs.is_private == 'true' }}
