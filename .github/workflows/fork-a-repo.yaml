@@ -32,7 +32,7 @@ jobs:
       with:
         github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
         github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
-        owner: ${{ github.event.inputs.target_owner }}'
+        owner: ${{ github.event.inputs.target_owner }}
 
     - name: Test API access
       env:
