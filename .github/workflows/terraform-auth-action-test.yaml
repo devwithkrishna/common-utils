@@ -1,8 +1,16 @@
-name: terraform-auth-action 
+name: terraform-auth-action
 
 on:
   workflow_dispatch:
-  
+    inputs:
+      directory:
+        description: 'Directory containing the Terraform configuration'
+        required: true
+        default: 'storage'
+      action:
+        description: 'Action to perform (apply/destroy)'
+        required: true
+        default: 'apply'
 
 jobs:
   terraform-auth-action:
@@ -16,7 +24,7 @@ jobs:
         github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
         github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
         owner: "devwithkrishna"
-        
+
     - name: Checkout repository
       uses: actions/checkout@v4
 
@@ -29,4 +37,45 @@ jobs:
 
     - name: list env vars
       run: printenv
-      
+
+    - name: setup for tfmodule
+      env:
+        token: ${{ steps.app-token.outputs.token }}
+      run: |
+        git config --local --remove-section http."https://github.com/"
+        git config --global url."https://githubofkrishnadhas:${{ steps.token-generation.outputs.token }}@github.com/devwithkrishna".insteadOf "https://github.com/devwithkrishna"
+
+    - name: git config
+      run: git config --list --show-origin
+
+    - name: terraform setup
+
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.5.7"
+
+    - name: terraform checking
+      run: |
+        terraform --version
+
+    - name: terraform init
+      run: terraform -chdir=${{ inputs.directory }} init
+
+    - name: terraform validate
+      run: terraform -chdir=${{ inputs.directory }} validate
+
+    - name: list files
+      run: |
+        ls -la
+        ls -la ${{ inputs.directory }}
+
+    - name: Terraform Plan
+      run: |
+        terraform -chdir=${{ inputs.directory }} plan -out=planfile ${{ github.event.inputs.action == 'destroy' && '-destroy' || '' }}
+    # - name: Terraform Apply
+    #   if: ${{ github.event.inputs.action == 'apply' }}
+    #   run: terraform -chdir=${{ inputs.directory }} apply -auto-approve planfile
+
+    # - name: Terraform Destroy
+    #   if: ${{ github.event.inputs.action == 'destroy' }}
+    #   run: terraform -chdir=${{ inputs.directory }} apply -auto-approve planfile
