@@ -33,6 +33,15 @@ jobs:
         github_app_id: ${{ secrets.TOKEN_GENERATOR_APPID }}
         github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
 
+    - name: Test API access
+      env:
+        GH_APP_TOKEN: ${{ steps.token-generation.outputs.token }}
+      run: |
+        echo "Testing token access..."
+        curl -H "Authorization: Bearer $GH_APP_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/devwithkrishna/enable-codeql-analysis-for-repositories
+
     - name: Make repo private if required
       if: ${{ github.event.inputs.is_private == 'true' }}
       env:
