@@ -25,9 +25,6 @@ jobs:
         github_app_private_key: ${{ secrets.TOKEN_GENERATOR_PRIVATE_KEY }}
         owner: "devwithkrishna"
 
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
     - name: Run terraform-auth-action
       uses: devwithkrishna/terraform-azure-authentication-action@main
       env:
@@ -37,6 +34,11 @@ jobs:
 
     - name: list env vars
       run: printenv
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        repository: devwithkrishna/common-utils
 
     - name: setup for tfmodule
       env:
