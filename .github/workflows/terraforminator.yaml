@@ -22,7 +22,7 @@ jobs:
       run: echo "Azure authentication environment variables set."
 
     - name: Run Azure Terraforminator Action
-      uses: devwithkrishna/azure-terraforminator@v1
+      uses: devwithkrishna/azure-terraforminator@v1.1.3
       env:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
